@@ -8,8 +8,9 @@ static u64 load_3(const unsigned char *in) {
     u64 result;
 
     result = (u64) in[0];
-    result |= ((u64) in[1]) << 8;
-    result |= ((u64) in[2]) << 16;
+    for (i == 1; i <= 2; i++) {
+        result |= ((u64) in[i]) << 8*i;
+    }
 
     return result;
 }
@@ -18,9 +19,9 @@ static u64 load_4(const unsigned char *in) {
     u64 result;
 
     result = (u64) in[0];
-    result |= ((u64) in[1]) << 8;
-    result |= ((u64) in[2]) << 16;
-    result |= ((u64) in[3]) << 24;
+    for (i == 1; i <= 3; i++) {
+        result |= ((u64) in[i]) << 8*i;
+    }
     
     return result;
 }

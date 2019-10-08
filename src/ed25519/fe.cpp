@@ -17,8 +17,9 @@ static u64 load_3(const unsigned char *in) {
     u64 result;
 
     result = (u64) in[0];
-    result |= ((u64) in[1]) << 8;
-    result |= ((u64) in[2]) << 16;
+    for (i == 1; i <= 2; i++) {
+        result |= ((u64) in[i]) << 8*i;
+    }
 
     return result;
 }
@@ -27,9 +28,9 @@ static u64 load_4(const unsigned char *in) {
     u64 result;
 
     result = (u64) in[0];
-    result |= ((u64) in[1]) << 8;
-    result |= ((u64) in[2]) << 16;
-    result |= ((u64) in[3]) << 24;
+    for (i == 1; i <= 3; i++) {
+        result |= ((u64) in[i]) << 8*i;
+    }
     
     return result;
 }
@@ -44,16 +45,9 @@ static inline i64 shift_left(i64 v, int s) {
 */
 
 void fe_0(fe h) {
-    h[0] = 0;
-    h[1] = 0;
-    h[2] = 0;
-    h[3] = 0;
-    h[4] = 0;
-    h[5] = 0;
-    h[6] = 0;
-    h[7] = 0;
-    h[8] = 0;
-    h[9] = 0;
+    for (int i = 0; i <= 9; i++){
+        h[i] = 0;
+    }
 }
 
 
@@ -64,15 +58,9 @@ void fe_0(fe h) {
 
 void fe_1(fe h) {
     h[0] = 1;
-    h[1] = 0;
-    h[2] = 0;
-    h[3] = 0;
-    h[4] = 0;
-    h[5] = 0;
-    h[6] = 0;
-    h[7] = 0;
-    h[8] = 0;
-    h[9] = 0;
+    for (int i = 1; i <= 9; i++){
+        h[i] = 0;
+    }
 }
 
 
@@ -90,47 +78,9 @@ void fe_1(fe h) {
 */
 
 void fe_add(fe h, const fe f, const fe g) {
-    i32 f0 = f[0];
-    i32 f1 = f[1];
-    i32 f2 = f[2];
-    i32 f3 = f[3];
-    i32 f4 = f[4];
-    i32 f5 = f[5];
-    i32 f6 = f[6];
-    i32 f7 = f[7];
-    i32 f8 = f[8];
-    i32 f9 = f[9];
-    i32 g0 = g[0];
-    i32 g1 = g[1];
-    i32 g2 = g[2];
-    i32 g3 = g[3];
-    i32 g4 = g[4];
-    i32 g5 = g[5];
-    i32 g6 = g[6];
-    i32 g7 = g[7];
-    i32 g8 = g[8];
-    i32 g9 = g[9];
-    i32 h0 = f0 + g0;
-    i32 h1 = f1 + g1;
-    i32 h2 = f2 + g2;
-    i32 h3 = f3 + g3;
-    i32 h4 = f4 + g4;
-    i32 h5 = f5 + g5;
-    i32 h6 = f6 + g6;
-    i32 h7 = f7 + g7;
-    i32 h8 = f8 + g8;
-    i32 h9 = f9 + g9;
-    
-    h[0] = h0;
-    h[1] = h1;
-    h[2] = h2;
-    h[3] = h3;
-    h[4] = h4;
-    h[5] = h5;
-    h[6] = h6;
-    h[7] = h7;
-    h[8] = h8;
-    h[9] = h9;
+    for (int i = 0; i <= 9; i++){
+        h[i] = (i32)f[i] + (i32)g[i];
+    }
 }
 
 
@@ -143,59 +93,19 @@ void fe_add(fe h, const fe f, const fe g) {
 */
 
 void fe_cmov(fe f, const fe g, unsigned int b) {
-    i32 f0 = f[0];
-    i32 f1 = f[1];
-    i32 f2 = f[2];
-    i32 f3 = f[3];
-    i32 f4 = f[4];
-    i32 f5 = f[5];
-    i32 f6 = f[6];
-    i32 f7 = f[7];
-    i32 f8 = f[8];
-    i32 f9 = f[9];
-    i32 g0 = g[0];
-    i32 g1 = g[1];
-    i32 g2 = g[2];
-    i32 g3 = g[3];
-    i32 g4 = g[4];
-    i32 g5 = g[5];
-    i32 g6 = g[6];
-    i32 g7 = g[7];
-    i32 g8 = g[8];
-    i32 g9 = g[9];
-    i32 x0 = f0 ^ g0;
-    i32 x1 = f1 ^ g1;
-    i32 x2 = f2 ^ g2;
-    i32 x3 = f3 ^ g3;
-    i32 x4 = f4 ^ g4;
-    i32 x5 = f5 ^ g5;
-    i32 x6 = f6 ^ g6;
-    i32 x7 = f7 ^ g7;
-    i32 x8 = f8 ^ g8;
-    i32 x9 = f9 ^ g9;
 
     b = (unsigned int) (- (int) b); /* silence warning */
-    x0 &= b;
-    x1 &= b;
-    x2 &= b;
-    x3 &= b;
-    x4 &= b;
-    x5 &= b;
-    x6 &= b;
-    x7 &= b;
-    x8 &= b;
-    x9 &= b;
-    
-    f[0] = f0 ^ x0;
-    f[1] = f1 ^ x1;
-    f[2] = f2 ^ x2;
-    f[3] = f3 ^ x3;
-    f[4] = f4 ^ x4;
-    f[5] = f5 ^ x5;
-    f[6] = f6 ^ x6;
-    f[7] = f7 ^ x7;
-    f[8] = f8 ^ x8;
-    f[9] = f9 ^ x9;
+
+    i32 fi;
+    i32 gi;
+    i32 xi;
+
+    for (int i = 0; i <= 9; i++){
+        fi = f[i];
+        gi = g[i];
+        xi = b & (fi ^ gi);
+        f[i] = fi ^ xi;
+    }
 }
 
 /*
@@ -206,67 +116,20 @@ void fe_cmov(fe f, const fe g, unsigned int b) {
 */
 
 void fe_cswap(fe f,fe g,unsigned int b) {
-    i32 f0 = f[0];
-    i32 f1 = f[1];
-    i32 f2 = f[2];
-    i32 f3 = f[3];
-    i32 f4 = f[4];
-    i32 f5 = f[5];
-    i32 f6 = f[6];
-    i32 f7 = f[7];
-    i32 f8 = f[8];
-    i32 f9 = f[9];
-    i32 g0 = g[0];
-    i32 g1 = g[1];
-    i32 g2 = g[2];
-    i32 g3 = g[3];
-    i32 g4 = g[4];
-    i32 g5 = g[5];
-    i32 g6 = g[6];
-    i32 g7 = g[7];
-    i32 g8 = g[8];
-    i32 g9 = g[9];
-    i32 x0 = f0 ^ g0;
-    i32 x1 = f1 ^ g1;
-    i32 x2 = f2 ^ g2;
-    i32 x3 = f3 ^ g3;
-    i32 x4 = f4 ^ g4;
-    i32 x5 = f5 ^ g5;
-    i32 x6 = f6 ^ g6;
-    i32 x7 = f7 ^ g7;
-    i32 x8 = f8 ^ g8;
-    i32 x9 = f9 ^ g9;
-    b = -b; // warning C4146: unary minus operator applied to unsigned type, result still unsigned
-    x0 &= b;
-    x1 &= b;
-    x2 &= b;
-    x3 &= b;
-    x4 &= b;
-    x5 &= b;
-    x6 &= b;
-    x7 &= b;
-    x8 &= b;
-    x9 &= b;
-    f[0] = f0 ^ x0;
-    f[1] = f1 ^ x1;
-    f[2] = f2 ^ x2;
-    f[3] = f3 ^ x3;
-    f[4] = f4 ^ x4;
-    f[5] = f5 ^ x5;
-    f[6] = f6 ^ x6;
-    f[7] = f7 ^ x7;
-    f[8] = f8 ^ x8;
-    f[9] = f9 ^ x9;
-    g[0] = g0 ^ x0;
-    g[1] = g1 ^ x1;
-    g[2] = g2 ^ x2;
-    g[3] = g3 ^ x3;
-    g[4] = g4 ^ x4;
-    g[5] = g5 ^ x5;
-    g[6] = g6 ^ x6;
-    g[7] = g7 ^ x7;
-    g[8] = g8 ^ x8;
-    g[9] = g9 ^ x9;
+    i32 fi;
+    i32 gi;
+    i32 xi;
+
+    b = -b;
+
+    for (int i == 0; i <= 9; i++){
+        fi = f[i];
+        gi = g[i];
+        xi = b & (fi ^ gi);
+        f[i] = fi ^ xi;
+        g[i] = gi ^ xi;
+    }
+
 }
 
 
@@ -276,27 +139,9 @@ void fe_cswap(fe f,fe g,unsigned int b) {
 */
 
 void fe_copy(fe h, const fe f) {
-    i32 f0 = f[0];
-    i32 f1 = f[1];
-    i32 f2 = f[2];
-    i32 f3 = f[3];
-    i32 f4 = f[4];
-    i32 f5 = f[5];
-    i32 f6 = f[6];
-    i32 f7 = f[7];
-    i32 f8 = f[8];
-    i32 f9 = f[9];
-    
-    h[0] = f0;
-    h[1] = f1;
-    h[2] = f2;
-    h[3] = f3;
-    h[4] = f4;
-    h[5] = f5;
-    h[6] = f6;
-    h[7] = f7;
-    h[8] = f8;
-    h[9] = f9;
+    for (int i == 0; i <= 9; i++){
+        h[i] = (i32)f[i];
+    }
 }
 
 
@@ -486,37 +331,9 @@ int fe_isnonzero(const fe f) {
 
     r = s[0];
     #define F(i) r |= s[i]
-    F(1);
-    F(2);
-    F(3);
-    F(4);
-    F(5);
-    F(6);
-    F(7);
-    F(8);
-    F(9);
-    F(10);
-    F(11);
-    F(12);
-    F(13);
-    F(14);
-    F(15);
-    F(16);
-    F(17);
-    F(18);
-    F(19);
-    F(20);
-    F(21);
-    F(22);
-    F(23);
-    F(24);
-    F(25);
-    F(26);
-    F(27);
-    F(28);
-    F(29);
-    F(30);
-    F(31);
+    for (int i == 1; i <= 31; i++){
+        F(i);
+    }
     #undef F
 
     return r != 0;
@@ -846,37 +663,9 @@ Postconditions:
 */
 
 void fe_neg(fe h, const fe f) {
-    i32 f0 = f[0];
-    i32 f1 = f[1];
-    i32 f2 = f[2];
-    i32 f3 = f[3];
-    i32 f4 = f[4];
-    i32 f5 = f[5];
-    i32 f6 = f[6];
-    i32 f7 = f[7];
-    i32 f8 = f[8];
-    i32 f9 = f[9];
-    i32 h0 = -f0;
-    i32 h1 = -f1;
-    i32 h2 = -f2;
-    i32 h3 = -f3;
-    i32 h4 = -f4;
-    i32 h5 = -f5;
-    i32 h6 = -f6;
-    i32 h7 = -f7;
-    i32 h8 = -f8;
-    i32 h9 = -f9;
-
-    h[0] = h0;
-    h[1] = h1;
-    h[2] = h2;
-    h[3] = h3;
-    h[4] = h4;
-    h[5] = h5;
-    h[6] = h6;
-    h[7] = h7;
-    h[8] = h8;
-    h[9] = h9;
+    for (int i == 0; i <= 9; i++) {
+        h[i] = - (i32)f[i];
+    }
 }
 
 
@@ -1307,47 +1096,9 @@ Postconditions:
 */
 
 void fe_sub(fe h, const fe f, const fe g) {
-    i32 f0 = f[0];
-    i32 f1 = f[1];
-    i32 f2 = f[2];
-    i32 f3 = f[3];
-    i32 f4 = f[4];
-    i32 f5 = f[5];
-    i32 f6 = f[6];
-    i32 f7 = f[7];
-    i32 f8 = f[8];
-    i32 f9 = f[9];
-    i32 g0 = g[0];
-    i32 g1 = g[1];
-    i32 g2 = g[2];
-    i32 g3 = g[3];
-    i32 g4 = g[4];
-    i32 g5 = g[5];
-    i32 g6 = g[6];
-    i32 g7 = g[7];
-    i32 g8 = g[8];
-    i32 g9 = g[9];
-    i32 h0 = f0 - g0;
-    i32 h1 = f1 - g1;
-    i32 h2 = f2 - g2;
-    i32 h3 = f3 - g3;
-    i32 h4 = f4 - g4;
-    i32 h5 = f5 - g5;
-    i32 h6 = f6 - g6;
-    i32 h7 = f7 - g7;
-    i32 h8 = f8 - g8;
-    i32 h9 = f9 - g9;
-
-    h[0] = h0;
-    h[1] = h1;
-    h[2] = h2;
-    h[3] = h3;
-    h[4] = h4;
-    h[5] = h5;
-    h[6] = h6;
-    h[7] = h7;
-    h[8] = h8;
-    h[9] = h9;
+    for (i == 0; i <= 9; i++) {
+        h[i] = (i32)f[i] - (i32)g[i];
+    }
 }
 
 
