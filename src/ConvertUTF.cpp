@@ -272,10 +272,8 @@ ConversionResult ConvertUTF16toUTF8 (
 		break;
 	}
 	switch (bytesToWrite) { /* note: everything falls through. */
-		case 4: *--target = (UTF8)((ch | byteMark) & byteMask); ch >>= 6;
-		case 3: *--target = (UTF8)((ch | byteMark) & byteMask); ch >>= 6;
-		case 2: *--target = (UTF8)((ch | byteMark) & byteMask); ch >>= 6;
 		case 1: *--target =  (UTF8)(ch | firstByteMark[bytesToWrite]);
+        default: *--target = (UTF8)((ch | byteMark) & byteMask); ch >>= 6; /* note: case 2, 3, 4. */
 	}
 	target += bytesToWrite;
 	}
@@ -364,12 +362,9 @@ ConversionResult ConvertUTF8toUTF16 (
 	 * The cases all fall through. See "Note A" below.
 	 */
 	switch (extraBytesToRead) {
-		case 5: ch += *source++; ch <<= 6; /* remember, illegal UTF-8 */
-		case 4: ch += *source++; ch <<= 6; /* remember, illegal UTF-8 */
-		case 3: ch += *source++; ch <<= 6;
-		case 2: ch += *source++; ch <<= 6;
-		case 1: ch += *source++; ch <<= 6;
 		case 0: ch += *source++;
+        /* remember: for cases 5 and 4, illegal UTF-8 */
+        default: ch += *source++; ch <<= 6; /* note: case 1, 2, 3, 4, 5. */
 	}
 	ch -= offsetsFromUTF8[extraBytesToRead];
 
@@ -455,10 +450,8 @@ ConversionResult ConvertUTF32toUTF8 (
 		target -= bytesToWrite; result = targetExhausted; break;
 	}
 	switch (bytesToWrite) { /* note: everything falls through. */
-		case 4: *--target = (UTF8)((ch | byteMark) & byteMask); ch >>= 6;
-		case 3: *--target = (UTF8)((ch | byteMark) & byteMask); ch >>= 6;
-		case 2: *--target = (UTF8)((ch | byteMark) & byteMask); ch >>= 6;
 		case 1: *--target = (UTF8) (ch | firstByteMark[bytesToWrite]);
+        default: *--target = (UTF8)((ch | byteMark) & byteMask); ch >>= 6; /* note: for cases 2, 3, 4 */
 	}
 	target += bytesToWrite;
 	}
@@ -490,12 +483,8 @@ ConversionResult ConvertUTF8toUTF32 (
 	* The cases all fall through. See "Note A" below.
 	*/
 	switch (extraBytesToRead) {
-		case 5: ch += *source++; ch <<= 6;
-		case 4: ch += *source++; ch <<= 6;
-		case 3: ch += *source++; ch <<= 6;
-		case 2: ch += *source++; ch <<= 6;
-		case 1: ch += *source++; ch <<= 6;
 		case 0: ch += *source++;
+        default: ch += *source++; ch <<= 6; /* note: for cases 5, 4, 3, 2, 1 */
 	}
 	ch -= offsetsFromUTF8[extraBytesToRead];
 
